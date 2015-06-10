@@ -63,9 +63,6 @@ float mov, b, angCacamba, d = 0;
 
 bool priPessoa = !priPessoa;
 
-int randX[20], randZ[20], index;
-
-
 void restauraProjecaoPerspectiva()
 {
      // Muda para a matriz do modelo
@@ -112,10 +109,10 @@ void estrada(void){
 	// Desenha a rua
    glBegin(GL_POLYGON);
    glColor3f(0.5f, 0.5f, 0.5f);
-   glVertex3i(-10, 0, -1000);
-   glVertex3i(-10, 0,  1000);
-   glVertex3i( 10, 0,  1000);
-   glVertex3i( 10, 0, -1000);
+   glVertex3i(-10, 0, -600);
+   glVertex3i(-10, 0,  600);
+   glVertex3i( 10, 0,  600);
+   glVertex3i( 10, 0, -600);
    glEnd();
 }
 
@@ -123,40 +120,39 @@ void calcada(void){
 	 // Desenha a calcada esquerdo
    glBegin(GL_POLYGON);
    glColor3f(0.3f, 0.3f, 0.3f);
-   glVertex3i(-10, 0, -1000);
-   glVertex3i(-15, 0, -1000);
-   glVertex3i(-15, 0,  1000);
-   glVertex3i(-10, 0,  1000);
+   glVertex3i(-10, 0, -600);
+   glVertex3i(-15, 0, -600);
+   glVertex3i(-15, 0,  600);
+   glVertex3i(-10, 0,  600);
    glEnd();
    
    // Desenha a calcada direita
    glBegin(GL_POLYGON);
    glColor3f(0.3f, 0.3f, 0.3f);
-   glVertex3i(10, 0, -1000);
-   glVertex3i(15, 0, -1000);
-   glVertex3i(15, 0,  1000);
-   glVertex3i(10, 0,  1000);
+   glVertex3i(10, 0, -600);
+   glVertex3i(15, 0, -600);
+   glVertex3i(15, 0,  600);
+   glVertex3i(10, 0,  600);
    glEnd();
 }
 
 void grama(void){
-	//Desenha grama esquerda
-	glBegin(GL_POLYGON);
-	glColor3f(0.0f, 0.8f, 0.0f);
-	glVertex3i(-15, 0, -1000);
-	glVertex3i(-215, 0, -1000);
-	glVertex3i(-215, 0, 1000);
-	glVertex3i(-15, 0, 1000);
-	glEnd();
-	
-	//Desenha grama direita
-	glBegin(GL_POLYGON);
-	glColor3f(0.0f, 0.8f, 0.0f);
-	glVertex3i(15, 0, -1000);
-	glVertex3i(215, 0, -1000);
-	glVertex3i(215, 0, 1000);
-	glVertex3i(15, 0, 1000);
-	glEnd();
+   // Gramado
+   glBegin(GL_QUADS);
+   glColor3f(117/255.0, 155/255.0, 63/255.0);
+   glVertex3i(-600, -1, -600);
+   glVertex3i( 600, -1, -600);
+   glVertex3i( 600, -1, 600);
+   glVertex3i(-600, -1, 600);
+   glEnd();
+}
+
+void ceu(void){
+	glPushMatrix();
+	glColor3f(0.3f, 0.3f, 0.8f);
+	glTranslatef(0, -300, 0);
+	glutSolidSphere(650, 256, 256);
+	glPopMatrix();
 }
 
 void chassi(void){
@@ -306,55 +302,59 @@ void farol(void){
 	glutSolidSphere(1, 32, 32);
 }
 
-void cacamba(void){
+void cacamba(void){	
+	glBegin(GL_QUADS);
+	
 	//Desenha cacamba esquerda
-	glBegin(GL_POLYGON);
+    glColor3f(187/255.0, 255/255.0, 153/255.0);
 	glVertex3i(-4, 13, 4);
 	glVertex3i(-4, 3, 4);
 	glVertex3i(-4, 3, 25);
 	glVertex3i(-4, 13, 30);
-	glEnd();
 	
 	//Desenha cacamba atrás
-	glBegin(GL_POLYGON);
+    glColor3f(177/255.0, 245/255.0, 143/255.0);
 	glVertex3i(-4, 13, 30);
 	glVertex3i(-4, 3, 25);
 	glVertex3i(4, 3, 25);
 	glVertex3i(4, 13, 30);
-	glEnd();
 	
 	//Desenha cacamba direita
-	glBegin(GL_POLYGON);
+    glColor3f(167/255.0, 235/255.0, 133/255.0);
 	glVertex3i(4, 13, 30);
 	glVertex3i(4, 3, 25);
 	glVertex3i(4, 3, 4);
 	glVertex3i(4, 13, 4);
-	glEnd();
 	
 	//Desenha cacamba frente
-	glBegin(GL_POLYGON);
+    glColor3f(170/255.0, 240/255.0, 135/255.0);
 	glVertex3i(4, 13, 4);
 	glVertex3i(4, 3, 4);
 	glVertex3i(-4, 3, 4);
 	glVertex3i(-4, 13, 4);
-	glEnd();
 	
 	//Desenha cacamba teto
-	glBegin(GL_POLYGON);
+    glColor3f(157/255.0, 225/255.0, 123/255.0);
 	glVertex3i(4, 13, 4);
 	glVertex3i(4, 13, 2);
 	glVertex3i(-4, 13, 2);
 	glVertex3i(-4, 13, 4);
-	glEnd();
 	
 	//Desenha cacamba baixo
-	glBegin(GL_POLYGON);
-	glColor3i(1, 1, 1);
+   	glColor3f(147/255.0, 215/255.0, 113/255.0);
 	glVertex3i(-4, 3, 4);
 	glVertex3i(-4, 3, 25);
 	glVertex3i(4, 3, 25);
 	glVertex3i(4, 3, 4);
 	glEnd();
+}
+
+void pinheiro(){
+	glRotatef(270, 1, 0, 0);
+    glColor3f(167/255.0, 95/255.0, 133/255.0);
+    glutSolidCone(5, 10, 10, 10);
+    glColor3f(128, 0, 0);
+    drawCylinder(6, 16, 10, 0.5);
 }
 
 void caminhao(void){
@@ -379,28 +379,28 @@ void caminhao(void){
 	
 	//Roda frente esquerda
 	glPushMatrix();
-	glTranslatef(-5, 3, -4);
+	glTranslatef(-5.5, 3, -4);
 	glRotatef(-a, 1, 0, 0);    
 	roda();
 	glPopMatrix();
 	
 	//Roda frente direita
 	glPushMatrix();
-	glTranslatef(5, 3, -4);
+	glTranslatef(5.5, 3, -4);
 	glRotatef(-a, 1, 0, 0);    
 	roda();
 	glPopMatrix();
 	
 	//Roda tras esquerda
 	glPushMatrix();
-	glTranslatef(-5, 3, 23.5);
+	glTranslatef(-5.5, 3, 23.5);
 	glRotatef(-a, 1, 0, 0);    
 	roda();
 	glPopMatrix();
 	
 	//Roda tras direita
 	glPushMatrix();
-	glTranslatef(5, 3, 23.5);
+	glTranslatef(5.5, 3, 23.5);
 	glRotatef(-a, 1, 0, 0);    
 	roda();
 	glPopMatrix();
@@ -455,7 +455,7 @@ void caminhao(void){
 	
 	//Caçamba
 	glPushMatrix();
-	glTranslatef(0, 0, 25);
+	glTranslatef(0, 0.5, 25);
 	glRotatef(angCacamba, 1, 0, 0);
 	glTranslatef(0, 0, -25);
 	cacamba();
@@ -463,17 +463,9 @@ void caminhao(void){
 	
 }
 
-void arvore(void){
-	glPushMatrix();
-	glRotatef(-90, 1, 0, 0);
-	glColor3i(1, 0, 0);
-	glutSolidCone(2, 5, 32, 32);
-	glPopMatrix();
-}
-
 void desenha(void){
   
-  	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+   glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   	
     // Limpa a matriz de transformacao GL_MODEL_VIEW
    glLoadIdentity();
@@ -484,25 +476,29 @@ void desenha(void){
              0.0, 1.0, 0.0);
 
 	glEnable(GL_DEPTH_TEST);
-	
+
+	ceu();	
 	estrada();
 	calcada();
 	grama();
 	
-	
+    for (int x=-600; x < 600; x = x+15){
+      glPushMatrix();
+      glTranslatef(60, 4, -60 + x);
+      pinheiro();
+      glPopMatrix();
+      
+      glPushMatrix();
+      glTranslatef(-60, 4, -60 + x);
+      pinheiro();
+      glPopMatrix();      
+   }
 	
 	
 	// Define o deslocamento do caminhão ao longo do eixo Z
     glPushMatrix();
     glTranslatef(0, 0, mov);	
 	caminhao();	
-	glPopMatrix();
-	
-	glPushMatrix();
-	for(index=0; index<20; index++){
-		glTranslatef(randX[index], 0, randZ[index]);
-		arvore();
-	}
 	glPopMatrix();
 	
 	// Muda para projecao em 2D
@@ -630,15 +626,9 @@ void recalculaCena(int valor)
        obsZ = eyeZ + dz;
      }
      
-     if (incrY != 0)
+     if (incrY != 0 && (eyeY + incrY) > 1 && (eyeY + incrY) < 300)
      {
-     	if (eyeY < 1){
-     		eyeY = 1;
-		 }
-		 else{
-			eyeY = eyeY + incrY;	 	
-		 }
-       
+	   eyeY = eyeY + incrY;
        obsY = eyeY;
      }
      
@@ -646,11 +636,7 @@ void recalculaCena(int valor)
      	mov += b;
      	
     if (d != 0)
-    	if (angCacamba < 0)
-    		angCacamba = 0;
-    	else if (angCacamba > 30)
-    		angCacamba = 30;
-    	else
+    	if ((angCacamba + d) >= 0 && (angCacamba + d) <= 25)
     		angCacamba += d;
 
      
@@ -668,16 +654,7 @@ void inicializa(void)
 {
      // Cor de fundo sera preta
    glClearColor (0.0, 0.0, 0.0, 0.0);
-   
-   //Arvores esquerda
-	srand((unsigned)time(0)); 
-    int random_integer; 
-    int lowestX=-50, highestX=-150, lowestZ=-150, highestZ=150; 
-    rangeX=(highestX-lowestX)+1, rangeZ=(highestZ-lowestZ)+1; 
-    for(int index=0; index<20; index++){ 
-        randX[index] = lowestX+int(rangeX*rand()/(RAND_MAX + 1.0)); 
-        randZ[index] = lowestZ+int(rangeZ*rand()/(RAND_MAX + 1.0));  
-    } 
+
 
 }
 
