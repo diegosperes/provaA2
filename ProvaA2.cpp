@@ -63,6 +63,8 @@ float mov, b, angCacamba, d = 0;
 
 bool priPessoa = !priPessoa;
 
+int i;
+
 void restauraProjecaoPerspectiva()
 {
      // Muda para a matriz do modelo
@@ -463,6 +465,35 @@ void caminhao(void){
 	
 }
 
+void poste(void){
+	glPushMatrix();
+	glColor3f(0.8, 0.8, 0.8);
+	glRotatef(-90, 1, 0, 0);
+	drawCylinder(16, 16, 50, 1);
+	glPopMatrix();
+	
+	glPushMatrix();
+	glColor3f(0.8, 0.8, 0.8);
+	glTranslatef(10, 24.4,0);
+	glRotatef(-90, 0, 1, 0);
+	drawCylinder(16, 16, 20, 1);
+	glPopMatrix();
+	
+	glPushMatrix();
+	glColor3f(0.8, 0.8, 0.8);
+	glTranslatef(20, 23.5, 0);
+	glRotatef(90, 1, 0, 0);
+	drawCylinder(16, 16, 3, 1);
+	glPopMatrix();
+	
+	glPushMatrix();
+	glColor3f(1, 1, 0);
+	glTranslatef(20, 20.5, 0);
+	glRotatef(-90, 1, 0, 0);
+	drawCone(4, 2, 16, 16);
+	glPopMatrix();
+}
+
 void desenha(void){
   
    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -481,6 +512,23 @@ void desenha(void){
 	estrada();
 	calcada();
 	grama();
+	
+	// Desenha poste lado esquerdo
+	for(i=-1000; i<1000; i+=100){
+		glPushMatrix();
+		glTranslatef(-17, 0, -i);
+		poste();
+		glPopMatrix();
+	}
+	
+	// Desenha poste lado direito
+	for(i=-550; i<1000; i+=100){
+		glPushMatrix();
+		glTranslatef(17, 0, -i);
+		glRotatef(180, 0, 1, 0);
+		poste();
+		glPopMatrix();
+	}
 	
     for (int x=-600; x < 600; x = x+15){
       glPushMatrix();
