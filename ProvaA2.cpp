@@ -65,6 +65,13 @@ bool priPessoa = !priPessoa;
 
 int i;
 
+// Variaveis de luz
+float luzAmbiente[] = {0.3, 0.3, 0.3, 1.0}; 
+float consSol = 1.0;
+float luzSolAmbiente[] = {0.3, 0.3, 0.3, 1.0};
+float luzSolDifusa[] = {consSol, consSol, consSol, 1.0};
+float posicaoLuz0[] = {150.0, 150.0, -150.0, 0.0};
+
 void restauraProjecaoPerspectiva()
 {
      // Muda para a matriz do modelo
@@ -507,6 +514,22 @@ void desenha(void){
              0.0, 1.0, 0.0);
 
 	glEnable(GL_DEPTH_TEST);
+	
+	// Habilita a iluminacao
+    glEnable(GL_LIGHTING);
+    glShadeModel(GL_SMOOTH);
+    
+    glEnable(GL_COLOR_MATERIAL);
+    
+    // Define a luz ambiente
+   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
+   glLightModelf(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
+   glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
+   
+   //Luz Sol
+   glLightfv(GL_LIGHT0, GL_AMBIENT, luzSolAmbiente);
+   glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa);
+   glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz0);
 
 	ceu();	
 	estrada();
