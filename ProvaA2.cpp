@@ -316,6 +316,11 @@ void cabineBaixo(void){
 
 void farol(void){
 	//Desenha Farol
+	if(farolLuz)
+		glColor3i(1, 1, 0);
+	else
+		glColor3f(0.5, 0.5, 0.5);
+	//Desenha Farol
 	glutSolidSphere(1, 32, 32);
 }
 
@@ -584,6 +589,7 @@ void desenha(void){
 	estrada();
 	calcada();
 	grama();
+
 	
 	// Desenha poste lado esquerdo
 	for(i=-1000; i<1000; i+=100){
@@ -692,6 +698,10 @@ void teclado(unsigned char ch, int x, int y)
 	 }
 	 else if (ch == 's') {
 	 	d += 0.5;
+	 }
+	else if(ch == '1') {
+	 	farolLuz = ! farolLuz;
+	 	glutPostRedisplay();
 	 }
 }
 
