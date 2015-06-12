@@ -66,11 +66,19 @@ bool priPessoa = !priPessoa;
 int i;
 
 // Variaveis de luz
+bool farolLuz = true;
+
+float posicaoLuz1[]  = {-1.5, 5, -7.5, 1.0};
+float posicaoLuz2[] = {1.5, 5, -7.5, 1.0};
+float direcaoSpot0[] = { 0, 0, -1};
+
 float luzAmbiente[] = {0.3, 0.3, 0.3, 1.0}; 
 float consSol = 1.0;
 float luzSolAmbiente[] = {0.3, 0.3, 0.3, 1.0};
 float luzSolDifusa[] = {consSol, consSol, consSol, 1.0};
 float posicaoLuz0[] = {150.0, 150.0, -150.0, 0.0};
+float desligado[]    = { 0, 0, 0, 0 };
+float branco[]    = { 1, 1, 1, 1 };
 
 void restauraProjecaoPerspectiva()
 {
@@ -530,6 +538,47 @@ void desenha(void){
    glLightfv(GL_LIGHT0, GL_AMBIENT, luzSolAmbiente);
    glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa);
    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz0);
+   
+   glEnable(GL_LIGHT0);
+   
+   //Luz farol esquerdo
+   glLightfv(GL_LIGHT1, GL_AMBIENT, desligado);
+   glLightfv(GL_LIGHT1, GL_SPECULAR, desligado);
+   glLightfv(GL_LIGHT1, GL_DIFFUSE, branco);
+   glLightf( GL_LIGHT1, GL_SPOT_CUTOFF, 30.0);
+   glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, direcaoSpot0);
+   glLightf(GL_LIGHT1, GL_CONSTANT_ATTENUATION, 1); 
+   glLightf(GL_LIGHT1, GL_LINEAR_ATTENUATION, 0.001); 
+   glLightf(GL_LIGHT1, GL_QUADRATIC_ATTENUATION, 0.0001);  
+   glPushMatrix();
+   glTranslatef(0, 0, mov);
+   glLightfv(GL_LIGHT1, GL_POSITION, posicaoLuz1);
+   glPopMatrix();
+    
+	//Luz farol direito
+   glLightfv(GL_LIGHT2, GL_AMBIENT, desligado);
+   glLightfv(GL_LIGHT2, GL_SPECULAR, desligado);
+   glLightfv(GL_LIGHT2, GL_DIFFUSE, branco);
+   glLightf( GL_LIGHT2, GL_SPOT_CUTOFF, 30.0);
+   glLightfv(GL_LIGHT2, GL_SPOT_DIRECTION, direcaoSpot0);
+   glLightf(GL_LIGHT2, GL_CONSTANT_ATTENUATION, 1); 
+   glLightf(GL_LIGHT2, GL_LINEAR_ATTENUATION, 0.001); 
+   glLightf(GL_LIGHT2, GL_QUADRATIC_ATTENUATION, 0.0001);  
+   glPushMatrix();
+   glTranslatef(0, 0, mov);
+   glLightfv(GL_LIGHT2, GL_POSITION, posicaoLuz2);
+   glPopMatrix();
+   
+   // Liga/desliga luz farol
+   if (farolLuz){
+   	  glEnable(GL_LIGHT1);
+      glEnable(GL_LIGHT2);
+   }
+    
+   else{
+   	  glDisable(GL_LIGHT1);
+      glDisable(GL_LIGHT2);
+   }
 
 	ceu();	
 	estrada();
