@@ -5,6 +5,9 @@
 #include <ctime> 
 #include <cstdlib>
 #include "figuras.cpp"
+#include <IL/il.h>
+#include <IL/ilu.h>
+#include <IL/ilut.h>
 
 const int   LARGURA = 900;
 const int   ALTURA  = 600;
@@ -988,6 +991,9 @@ int main(int argc, char* argv[])
    glutInitWindowSize(LARGURA, ALTURA); 
    glutInitWindowPosition(PX, PY);
    glutCreateWindow("Prova A2");
+   ilInit();
+   iluInit();
+   ilutInit();
    inicializa();
    glutDisplayFunc(desenha); 
    glutReshapeFunc(redimensiona);
