@@ -30,8 +30,11 @@ float incrY = 0.0;
 
 // Camera
 float eyeX = 0;
+float oldEyeX = 0;
 float eyeY = 10;
+float oldEyeY = 10;
 float eyeZ = 50;
+float oldEyeZ = 50;
 
 // Angulo de rotacao
 float angulo = 0.0;
@@ -913,21 +916,27 @@ void liberaTecladoEspecial(int tecla, int x, int y)
 void recalculaCena(int valor)
 {    
 	 if (priPessoa){
-	 	eyeX = 0.16;
-	 	eyeY = 10;
-	 	eyeZ = mov;
-	 	obsX = eyeX + dx;
-	 	obsZ = eyeZ + dz;
+	 	if (eyeX != 0.16 && eyeY != 10) {
+		    oldEyeX = eyeX;
+		    oldEyeY = eyeY;
+		    oldEyeZ = eyeZ;
+		} else {
+		    eyeX = 0.16;
+	 	    eyeY = 10;
+	 	    eyeZ = mov;
+		}
 	 	incrY = incrXZ = 0;
 	 }
 	 else{
-		eyeX = eyeX + incrXZ * dx;
-       eyeZ = eyeZ + incrXZ * dz;
-       obsX = eyeX + dx;
-       obsZ = eyeZ + dz;
+	   oldEyeX = oldEyeX + incrXZ * dx;
+       oldEyeZ = oldEyeZ + incrXZ * dz;
+       
+	   eyeX = oldEyeX;
+       eyeZ = oldEyeZ;
 	 }
-
-
+	  
+     obsX = eyeX + dx;
+     obsZ = eyeZ + dz;
 
      if (incrAngulo != 0)
      {
