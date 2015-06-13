@@ -72,6 +72,10 @@ float posicaoLuz1[]  = {-1.5, 5, -7.5, 1.0};
 float posicaoLuz2[] = {1.5, 5, -7.5, 1.0};
 float direcaoSpot0[] = { 0, 0, -1};
 
+float corEstrada[] = {0.5, 0.5, 0.5, 1.0};
+float corCalcada[] = {1.0, 0.3, 0.3, 1.0};
+float corGrama[] = {0.0, 0.8, 0.0, 1.0};
+
 float luzAmbiente[] = {0.3, 0.3, 0.3, 1.0}; 
 float consSol = 1.0;
 float luzSolAmbiente[] = {0.3, 0.3, 0.3, 1.0};
@@ -123,9 +127,10 @@ void iniciaProjecaoOrtografica2D() {
 }
 
 void estrada(void){
+	
 	// Desenha a rua
    glBegin(GL_POLYGON);
-   glColor3f(0.5f, 0.5f, 0.5f);
+   //glColor3f(0.5f, 0.5f, 0.5f);
    glVertex3i(-10, 0, -600);
    glVertex3i(-10, 0,  600);
    glVertex3i( 10, 0,  600);
@@ -134,9 +139,10 @@ void estrada(void){
 }
 
 void calcada(void){
+	
 	 // Desenha a calcada esquerdo
    glBegin(GL_POLYGON);
-   glColor3f(0.3f, 0.3f, 0.3f);
+   //glColor3f(0.3f, 0.3f, 0.3f);
    glVertex3i(-10, 0, -600);
    glVertex3i(-15, 0, -600);
    glVertex3i(-15, 0,  600);
@@ -145,7 +151,7 @@ void calcada(void){
    
    // Desenha a calcada direita
    glBegin(GL_POLYGON);
-   glColor3f(0.3f, 0.3f, 0.3f);
+   //glColor3f(0.3f, 0.3f, 0.3f);
    glVertex3i(10, 0, -600);
    glVertex3i(15, 0, -600);
    glVertex3i(15, 0,  600);
@@ -156,7 +162,7 @@ void calcada(void){
 void grama(void){
    // Gramado
    glBegin(GL_QUADS);
-   glColor3f(117/255.0, 155/255.0, 63/255.0);
+   //glColor3f(117/255.0, 155/255.0, 63/255.0);
    glVertex3i(-600, -1, -600);
    glVertex3i( 600, -1, -600);
    glVertex3i( 600, -1, 600);
@@ -532,7 +538,7 @@ void desenha(void){
     glEnable(GL_LIGHTING);
     glShadeModel(GL_SMOOTH);
     
-    glEnable(GL_COLOR_MATERIAL);
+    //glEnable(GL_COLOR_MATERIAL);
     
     // Define a luz ambiente
    glLightModelfv(GL_LIGHT_MODEL_AMBIENT, luzAmbiente);
@@ -586,8 +592,14 @@ void desenha(void){
    }
 
 	ceu();	
+	
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corEstrada);
 	estrada();
+	
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corCalcada);
 	calcada();
+	
+	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corGrama);
 	grama();
 
 	
