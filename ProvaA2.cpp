@@ -64,7 +64,7 @@ int largura_vp, altura_vp;
 
 float mov, b, angCacamba, d = 0;
 
-bool priPessoa = !priPessoa;
+bool priPessoa = false;
 
 int i;
 
@@ -873,6 +873,9 @@ void teclado(unsigned char ch, int x, int y)
 	 else if(ch == '+' && velocidade >=1 && velocidade <9){
 	 	velocidade+=1;
 	 }
+	 else if(ch == 32){
+	 	priPessoa = ! priPessoa;
+	 }
 }
 
 void liberaTeclado(unsigned char ch, int x, int y)
@@ -909,6 +912,23 @@ void liberaTecladoEspecial(int tecla, int x, int y)
 
 void recalculaCena(int valor)
 {    
+	 if (priPessoa){
+	 	eyeX = 0.16;
+	 	eyeY = 10;
+	 	eyeZ = mov;
+	 	obsX = eyeX + dx;
+	 	obsZ = eyeZ + dz;
+	 	incrY = incrXZ = 0;
+	 }
+	 else{
+		eyeX = eyeX + incrXZ * dx;
+       eyeZ = eyeZ + incrXZ * dz;
+       obsX = eyeX + dx;
+       obsZ = eyeZ + dz;
+	 }
+
+
+
      if (incrAngulo != 0)
      {
        angulo = angulo + incrAngulo;
