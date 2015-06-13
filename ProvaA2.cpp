@@ -8,6 +8,7 @@
 #include <IL/il.h>
 #include <IL/ilu.h>
 #include <IL/ilut.h>
+#include "imagem.cpp"
 
 const int   LARGURA = 900;
 const int   ALTURA  = 600;
@@ -30,6 +31,11 @@ float incrXZ = 0.0;
 
 // Incremento no eixo Y quando o usuario pressiona 'c' ou 'b'
 float incrY = 0.0;
+
+//textura
+unsigned int texturaEstrada;
+unsigned int texturaGrama;
+unsigned int texturaAsfalto;
 
 // Camera
 float eyeX = 0;
@@ -91,9 +97,9 @@ float posicaoLuz7[] = {3, 20, -400, 1};
 float posicaoLuz8[] = {3, 20, -500, 1};
 float direcaoSpot0[] = { 0, 0, -1};
 
-float corEstrada[] = {0.5, 0.5, 0.5, 1.0};
-float corCalcada[] = {0.3, 0.3, 0.3, 1.0};
-float corGrama[] = {117/255.0, 155/255.0, 63/255.0, 1.0};
+float corEstrada[] = {1, 1, 1, 1.0};
+float corCalcada[] = {1, 1, 1, 1.0};
+float corGrama[] = {1, 1, 1, 1.0};
 float corCeu[] = {123.0/255, 217.0/255, 234.0, 1.0};
 float corCopa[] = {0, 1, 0, 1.0};
 float corCaule[] = {128.0/255, 64.0/255, 0, 1.0};
@@ -200,31 +206,39 @@ void iniciaProjecaoOrtografica2D() {
 }
 
 void estrada(void){	
-	//glColor3f(0.5f, 0.5f, 0.5f);
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corEstrada);
+	texturaEstrada = LoadImageTexture("asfalto1.jpg");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glBindTexture(GL_TEXTURE_2D, texturaEstrada);
 	for (i=-600; i<=600; i+=10){
 		glBegin(GL_POLYGON);
+		glColor3f(1, 1, 1);
 		glNormal3f(0, 1, 0);
+		glTexCoord2f(0, 0);
 		glVertex3i(-10, 0, i);
+		glTexCoord2f(0, 1);
 		glVertex3i(-10, 0, i+10);
+		glTexCoord2f(1, 1);
 		glVertex3i(10, 0, i+10);
+		glTexCoord2f(1, 0);
 		glVertex3i(10, 0, i);
 		glEnd();
 	}
+	glDeleteTextures(1, &texturaEstrada);
 }
 
 void calcada(void){
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corCalcada);
 	for (i=-600; i<=600; i+= 10){
 		// Desenha a calcada esquerdo
-   		glBegin(GL_POLYGON);
+		glBegin(GL_POLYGON);
    		glNormal3f(0, 1, 0);
-   		glVertex3i(-15, 0, i);
+		glVertex3i(-15, 0, i);
    		glVertex3i(-15, 0, i+10);
    		glVertex3i(-10, 0,  i+10);
    		glVertex3i(-10, 0,  i);
    		glEnd();
-   
+        
     	// Desenha a calcada direita
    		glBegin(GL_POLYGON);
    		glNormal3f(0, 1, 0);
@@ -238,23 +252,35 @@ void calcada(void){
 
 void grama(void){
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corGrama);
- 	//Desenha grama esquerda
+	texturaGrama = LoadImageTexture("grama.jpg");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glBindTexture(GL_TEXTURE_2D, texturaGrama);
+	 //Desenha grama esquerda
 	glBegin(GL_POLYGON);
 	glNormal3f(0, 1, 0);
+	glTexCoord2f(0, 0);
 	glVertex3i(-215, 0, -600);
+	glTexCoord2f(20, 0);
 	glVertex3i(-215, 0, 600);
+	glTexCoord2f(20, 20);
 	glVertex3i(-15, 0, 600);
+	glTexCoord2f(0, 20);
 	glVertex3i(-15, 0, -600);
 	glEnd();
 	
 	//Desenha grama direita
 	glBegin(GL_POLYGON);
 	glNormal3f(0, 1, 0);
+	glTexCoord2f(0, 0);
 	glVertex3i(15, 0, -600);
+	glTexCoord2f(0, 20);
 	glVertex3i(15, 0, 600);
+	glTexCoord2f(20, 20);
 	glVertex3i(215, 0, 600);
+	glTexCoord2f(20, 0);
 	glVertex3i(215, 0, -600);
 	glEnd();
+	glDeleteTextures(1, &texturaGrama);
 }
 
 void ceu(void){
@@ -634,6 +660,9 @@ void desenha(void){
 	// Habilita a iluminacao
     glEnable(GL_LIGHTING);
     glShadeModel(GL_SMOOTH);
+    
+    // Habilita textura
+    glEnable(GL_TEXTURE_2D);
     
     //glEnable(GL_COLOR_MATERIAL);
     
