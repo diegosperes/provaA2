@@ -104,9 +104,22 @@ float corLuminaria[] = {0.8, 0.8, 0, 1.0};
 float corCacamba[] = {255/255.0, 128/255.0, 0, 1.0};
 
 float luzAmbiente[] = {0.3, 0.3, 0.3, 1.0}; 
-float conSol = 1.0;
-float luzSolAmbiente[] = {0.3, 0.3, 0.3, 1.0};
-float luzSolDifusa[] = {conSol, conSol, conSol, 1.0};
+int conSol = 10;
+float luzSolAmbiente0[] = {0.0, 0.0, 0.0, 1.0};
+float luzSolAmbiente1[] = {0.1, 0.1, 0.1, 1.0};
+float luzSolAmbiente2[] = {0.2, 0.2, 0.2, 1.0};
+float luzSolAmbiente3[] = {0.3, 0.3, 0.3, 1.0};
+float luzSolDifusa10[] = {1.0, 1.0, 1.0, 1.0};
+float luzSolDifusa9[] = {0.9, 0.9, 0.9, 1.0};
+float luzSolDifusa8[] = {0.8, 0.8, 0.8, 1.0};
+float luzSolDifusa7[] = {0.7, 0.7, 0.7, 1.0};
+float luzSolDifusa6[] = {0.6, 0.6, 0.6, 1.0};
+float luzSolDifusa5[] = {0.5, 0.5, 0.5, 1.0};
+float luzSolDifusa4[] = {0.4, 0.4, 0.4, 1.0};
+float luzSolDifusa3[] = {0.3, 0.3, 0.3, 1.0};
+float luzSolDifusa2[] = {0.2, 0.2, 0.2, 1.0};
+float luzSolDifusa1[] = {0.1, 0.1, 0.1, 1.0};
+float luzSolDifusa0[] = {0, 0, 0, 1.0};
 float posicaoLuz0[] = {150.0, 150.0, -150.0, 0.0};
 float desligado[]    = { 0, 0, 0, 0 };
 float branco[]    = { 1, 1, 1, 1 };
@@ -627,9 +640,47 @@ void desenha(void){
    glLightModelf(GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE);
    
    //Luz Sol
-   glLightfv(GL_LIGHT0, GL_AMBIENT, luzSolAmbiente);
-   glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa);
    glLightfv(GL_LIGHT0, GL_POSITION, posicaoLuz0);
+   switch (conSol){
+   		case 0:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa0);
+   			glLightfv(GL_LIGHT0, GL_AMBIENT, luzSolAmbiente0);
+   			break;
+   		case 1:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa1);
+   			break;
+   		case 2: 
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa2);
+   			break;
+   		case 3:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa3);
+   			break;
+   		case 4:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa4);
+   			glLightfv(GL_LIGHT0, GL_AMBIENT, luzSolAmbiente1);
+   			break;
+   		case 5:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa5);
+   			break;
+   		case 6:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa6);
+   			break;
+   		case 7:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa7);
+   			glLightfv(GL_LIGHT0, GL_AMBIENT, luzSolAmbiente2);
+   			break;
+   		case 8:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa8);
+   			break;
+   		case 9:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa9);
+   			break;
+   		case 10:
+   			glLightfv(GL_LIGHT0, GL_DIFFUSE, luzSolDifusa10);
+   			glLightfv(GL_LIGHT0, GL_AMBIENT, luzSolAmbiente3);
+   			break;
+   }
+
    
    glEnable(GL_LIGHT0);
    
@@ -866,8 +917,12 @@ void teclado(unsigned char ch, int x, int y)
 	 	posteLuz = ! posteLuz;
 	 	glutPostRedisplay();
 	 }
-	 else if(ch == 'l'){
-	 	conSol -= 0.1;
+	 else if(ch == 'l' && conSol > 1 && conSol <= 10){
+	 	conSol--;
+	 	glutPostRedisplay();
+	 }
+	 else if(ch == 'p' && conSol >= 1 && conSol < 10) {
+	 	conSol++;
 	 	glutPostRedisplay();
 	 }
 	 else if(ch == '-' && velocidade <=9 && velocidade >1 ){
