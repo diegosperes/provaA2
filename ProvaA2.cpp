@@ -62,6 +62,7 @@ float anguloCubo = 0;
 float incrAnguloCubo = 1;
 
 // Mensagem
+char *strcacamba  = "Carga Pesada";
 char *str = "Camera (%.2f, %.2f, %.2f)  Angulo: %.2f  Velocidade: %d  Farol: %c Poste: %c";
 
 // Escala da fonte
@@ -229,25 +230,23 @@ void estrada(void){
 
 void calcada(void){
 	glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, corCalcada);
-	for (i=-600; i<=600; i+= 10){
-		// Desenha a calcada esquerdo
-		glBegin(GL_POLYGON);
-   		glNormal3f(0, 1, 0);
-		glVertex3i(-15, 0, i);
-   		glVertex3i(-15, 0, i+10);
-   		glVertex3i(-10, 0,  i+10);
-   		glVertex3i(-10, 0,  i);
-   		glEnd();
-        
-    	// Desenha a calcada direita
-   		glBegin(GL_POLYGON);
-   		glNormal3f(0, 1, 0);
-   		glVertex3i(10, 0, i);
-   		glVertex3i(10, 0, i+10);
-   		glVertex3i(15, 0,  i+10);
-   		glVertex3i(15, 0,  i);
-   		glEnd();
-	}
+	texturaAsfalto = LoadImageTexture("marquise.jpg");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glBindTexture(GL_TEXTURE_2D, texturaAsfalto);
+
+	// Desenha a calcada
+	glBegin(GL_POLYGON);
+   	glNormal3f(0, 1, 0);
+   	glTexCoord2f(0, 0);
+	glVertex3i(-15, -1, 600);
+	glTexCoord2f(600, 0);
+   	glVertex3i(15, -1, 600);
+   	glTexCoord2f(600, 600);
+	glVertex3i(15, -1, -600);
+	glTexCoord2f(0, 600);
+   	glVertex3i(-15, -1,  -600);
+   	glEnd();
+	glDeleteTextures(1, &texturaAsfalto);
 }
 
 void grama(void){
@@ -259,26 +258,26 @@ void grama(void){
 	glBegin(GL_POLYGON);
 	glNormal3f(0, 1, 0);
 	glTexCoord2f(0, 0);
-	glVertex3i(-215, 0, -600);
+	glVertex3i(-215, -1, -600);
 	glTexCoord2f(20, 0);
-	glVertex3i(-215, 0, 600);
+	glVertex3i(-215, -1, 600);
 	glTexCoord2f(20, 20);
-	glVertex3i(-15, 0, 600);
+	glVertex3i(-15, -1, 600);
 	glTexCoord2f(0, 20);
-	glVertex3i(-15, 0, -600);
+	glVertex3i(-15, -1, -600);
 	glEnd();
 	
 	//Desenha grama direita
 	glBegin(GL_POLYGON);
 	glNormal3f(0, 1, 0);
 	glTexCoord2f(0, 0);
-	glVertex3i(15, 0, -600);
+	glVertex3i(15, -1, -600);
 	glTexCoord2f(0, 20);
-	glVertex3i(15, 0, 600);
+	glVertex3i(15, -1, 600);
 	glTexCoord2f(20, 20);
-	glVertex3i(215, 0, 600);
+	glVertex3i(215, -1, 600);
 	glTexCoord2f(20, 0);
-	glVertex3i(215, 0, -600);
+	glVertex3i(215, -1, -600);
 	glEnd();
 	glDeleteTextures(1, &texturaGrama);
 }
@@ -456,7 +455,7 @@ void farol(void){
 }
 
 void cacamba(void){	
-glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, corCacamba);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, corCacamba);
 	glBegin(GL_QUADS);
 	//Desenha cacamba esquerda
 	glNormal3f(-1, 0, 0);
@@ -500,6 +499,18 @@ glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, corCacamba);
 	glVertex3i(4, 3, 25);
 	glVertex3i(4, 3, 4);
 	glEnd();
+	
+   // Desenha o texto em 3D
+   int length = glutStrokeLength((void *) GLUT_STROKE_ROMAN, (const unsigned char *) strcacamba);
+   int height = glutStrokeHeight((void *) GLUT_STROKE_ROMAN);
+
+   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, corEstrada);
+   glRotatef(270, 0, 1, 0);
+   glTranslatef(5.3, 5.5, 4);
+   glScalef(0.022, 0.06, 0.0);
+   glLineWidth(10);
+   glutStrokeString((void *) GLUT_STROKE_ROMAN, (const unsigned char *) strcacamba);
+   glLineWidth(1);
 }
 
 void pinheiro(){
@@ -930,10 +941,10 @@ void teclado(unsigned char ch, int x, int y)
        incrY = -1;
      }     
      else if (ch == 't') {
-     	b -= velocidade;
+     	b += velocidade;
 	 }
 	 else if (ch == 'f') {
-	 	b += velocidade;
+	 	b -= velocidade;
 	 }
 	 else if (ch == 'a') {
 	 	d -= 0.5;
