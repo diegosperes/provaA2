@@ -36,6 +36,7 @@ float incrY = 0.0;
 unsigned int texturaEstrada;
 unsigned int texturaGrama;
 unsigned int texturaAsfalto;
+unsigned int texturaCacamba;
 
 // Camera
 float eyeX = 0;
@@ -111,7 +112,7 @@ float corFarolOn[] = {1, 1, 0, 1.0};
 float corFarolOff[] = {0.5, 0.5, 0.5, 1.0};
 float corPoste[] = {0.8, 0.8, 0.8, 1.0};
 float corLuminaria[] = {0.8, 0.8, 0, 1.0};
-float corCacamba[] = {255/255.0, 128/255.0, 0, 1.0};
+float corCacamba[] = {1, 1, 1, 1.0};
 
 float luzAmbiente[] = {0.3, 0.3, 0.3, 1.0}; 
 int conSol = 10;
@@ -456,49 +457,79 @@ void farol(void){
 
 void cacamba(void){	
     glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, corCacamba);
+	texturaCacamba = LoadImageTexture("ferro1.jpg");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glBindTexture(GL_TEXTURE_2D, texturaCacamba);
+	
 	glBegin(GL_QUADS);
 	//Desenha cacamba esquerda
 	glNormal3f(-1, 0, 0);
+	glTexCoord2f(0, 0);
 	glVertex3i(-4, 13, 4);
+	glTexCoord2f(0, 1);
 	glVertex3i(-4, 3, 4);
+	glTexCoord2f(1, 1);
 	glVertex3i(-4, 3, 25);
+	glTexCoord2f(1, 0);
 	glVertex3i(-4, 13, 30);
 	
 	//Desenha cacamba atrás
 	glNormal3f(0, 0, 1);
+	glTexCoord2f(0, 0);
 	glVertex3i(-4, 13, 30);
+	glTexCoord2f(0, 1);
 	glVertex3i(-4, 3, 25);
+	glTexCoord2f(1, 1);
 	glVertex3i(4, 3, 25);
+	glTexCoord2f(1, 0);
 	glVertex3i(4, 13, 30);
 	
 	//Desenha cacamba direita
 	glNormal3f(1, 0, 0);
+	glTexCoord2f(0, 0);
 	glVertex3i(4, 13, 30);
+	glTexCoord2f(0, 1);
 	glVertex3i(4, 3, 25);
+	glTexCoord2f(1, 1);
 	glVertex3i(4, 3, 4);
+	glTexCoord2f(1, 0);
 	glVertex3i(4, 13, 4);
 	
 	//Desenha cacamba frente
 	glNormal3f(0, 0, -1);
+	glTexCoord2f(0, 0);
 	glVertex3i(4, 13, 4);
+	glTexCoord2f(0, 1);
 	glVertex3i(4, 3, 4);
+	glTexCoord2f(1, 1);
 	glVertex3i(-4, 3, 4);
+	glTexCoord2f(1, 0);
 	glVertex3i(-4, 13, 4);
 	
 	//Desenha cacamba teto
 	glNormal3f(0, 1, 0);
+	glTexCoord2f(0, 0);
 	glVertex3i(4, 13, 4);
+	glTexCoord2f(0, 1);
 	glVertex3i(4, 13, 2);
+	glTexCoord2f(1, 1);
 	glVertex3i(-4, 13, 2);
+	glTexCoord2f(1, 0);
 	glVertex3i(-4, 13, 4);
 	
 	//Desenha cacamba baixo
 	glNormal3f(0, 1, 0);
+	glTexCoord2f(0, 0);
 	glVertex3i(-4, 3, 4);
+	glTexCoord2f(0, 1);
 	glVertex3i(-4, 3, 25);
+	glTexCoord2f(1, 1);
 	glVertex3i(4, 3, 25);
+	glTexCoord2f(1, 0);
 	glVertex3i(4, 3, 4);
 	glEnd();
+	
+	glDeleteTextures(1, &texturaCacamba);
 	
    // Desenha o texto em 3D
    int length = glutStrokeLength((void *) GLUT_STROKE_ROMAN, (const unsigned char *) strcacamba);
@@ -506,8 +537,8 @@ void cacamba(void){
 
    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, corEstrada);
    glRotatef(270, 0, 1, 0);
-   glTranslatef(5.3, 5.5, 4);
-   glScalef(0.022, 0.06, 0.0);
+   glTranslatef(5.3, 5.5, 4.1);
+   glScalef(0.022, 0.06, 0);
    glLineWidth(10);
    glutStrokeString((void *) GLUT_STROKE_ROMAN, (const unsigned char *) strcacamba);
    glLineWidth(1);
